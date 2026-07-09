@@ -2,7 +2,7 @@ const ytdlp = require("yt-dlp-exec");
 const axios = require("axios");
 
 async function getStreamUrl(videoId, req, res){
-    const url = `https://youtube.com/watch?v=${videoId}`;
+    const url = `https://music.youtube.com/watch?v=${videoId}`;
 
     const streamUrl = await ytdlp(url,{
             format: "ba",
