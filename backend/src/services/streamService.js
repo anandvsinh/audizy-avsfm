@@ -5,19 +5,21 @@ const Cache = require("./cacheService");
 async function getStreamUrl(videoId, req, res){
     const url = `https://music.youtube.com/watch?v=${videoId}`;     //Constructing the YouTube Music URL for the given videoId
 
-    const cachedUrl = Cache.get(videoId);        //Checking if the stream URL is already cached
-    if(cachedUrl){
-        console.log("[CACHE] HIT:", videoId);
-        return cachedUrl;
+    let streamUrl = Cache.get(videoId);         //imports cached url
+
+    if(streamUrl){
+        console.log("[CACHE} HIT:", videoId);
     }
-
-    const streamUrl = await ytdlp(url,{     //Getting the stream URL using yt-dlp
-            format: "ba",
-            getUrl: true
+    else{
+        streamUrl = await ytdlp(url,{           //calls yt-dlp for url if url not cached already
+            format:"ba",
+            getUrl:true
         });
+        
+        Cache.set(videoId, streamUrl);
 
-    Cache.set(videoId, streamUrl);      //Saving the stream URL in cache for future requests
-    console.log("[CACHE] STORED:",videoId);
+        console.log("[CACHE] STORED:",videoId);     //stores the new streamUrl in cache
+    }
 
     const range = req.headers.range;
 
@@ -26,12 +28,35 @@ async function getStreamUrl(videoId, req, res){
         headers.Range = range;
     }
     
-    const response = await axios({      //Making a GET request to the stream URL with the appropriate headers
-        url: streamUrl.trim(),
-        method: "GET",
-        responseType: "stream",
-        headers
-    });
+    let response;
+
+    try{
+        response = await axios({
+            url: streamUrl.trim(),
+            method: "GET",
+            responseType: "stream",
+            headers
+        });
+    }
+
+    catch (err){
+        Cache.remove(videoId);
+        console.log("[CACHE] REMOVED:", videoId);
+
+        streamUrl = await ytdlp(url, {
+            format: "ba",
+            getUrl: true
+        });
+        
+        Cache.set(videoId, streamUrl);
+
+        response = await axios({
+            url: streamUrl.trim(),
+            method: "GET",
+            responseType: "stream",
+            headers
+        });
+    }
 
 //Headers*
     if(response.headers["content-type"]){
