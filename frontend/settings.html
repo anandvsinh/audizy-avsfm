@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Settings — Audizy</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/player.css">
+<link rel="stylesheet" href="css/animations.css">
+<link rel="stylesheet" href="css/responsive.css">
+</head>
+<body data-page="settings">
+
+  <div class="sidebar-overlay"></div>
+
+  <div class="app-shell">
+    <!-- ============ SIDEBAR ============ -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <svg class="brand-mark" viewBox="0 0 36 36" fill="none">
+          <rect width="36" height="36" rx="10" fill="url(#g1)"/>
+          <path d="M11 24V12l4 2v10a3 3 0 11-2-2.8z" fill="#0B0E13"/>
+          <rect x="17.5" y="9" width="2.4" height="13" rx="1.2" fill="#0B0E13"/>
+          <rect x="21.5" y="13" width="2.4" height="9" rx="1.2" fill="#0B0E13"/>
+          <rect x="25.5" y="11" width="2.4" height="11" rx="1.2" fill="#0B0E13"/>
+          <defs>
+            <linearGradient id="g1" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#00C2FF"/><stop offset="1" stop-color="#6C63FF"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="brand-text">
+          <span class="brand-name">Audizy</span>
+          <span class="brand-sub">AVS FM STREAMING</span>
+        </div>
+      </div>
+
+      <nav class="nav-section" id="primary-nav"></nav>
+
+      <div class="sidebar-footer">© 2026 AVS FM Streaming Services</div>
+    </aside>
+
+    <!-- ============ MAIN ============ -->
+    <main class="main">
+      <header class="topbar">
+        <button class="hamburger" aria-label="Open menu"></button>
+        <div class="topbar-search">
+          <input type="text" placeholder="Search songs, artists..." aria-label="Search">
+        </div>
+      </header>
+
+      <div class="content">
+        <div class="placeholder-page fade-in">
+          <span id="ph-icon"></span>
+          <h2>Settings</h2>
+          <p>Theme, playback quality, and account options will live here as Audizy grows.</p>
+        </div>
+      
+      </div>
+    </main>
+  </div>
+
+  <!-- ============ PLAYER ============ -->
+  <footer class="player">
+    <div class="player-track">
+      <div class="player-art"></div>
+      <div class="player-meta">
+        <div class="player-title">Nothing playing</div>
+        <div class="player-channel">Pick a track to start</div>
+      </div>
+      <button class="player-fav" aria-label="Favorite"></button>
+    </div>
+
+    <div class="player-center">
+      <div class="player-controls">
+        <button class="btn-icon player-prev" aria-label="Previous"></button>
+        <button class="play-toggle" aria-label="Play/Pause"><div class="player-loader"></div></button>
+        <button class="btn-icon player-next" aria-label="Next"></button>
+      </div>
+      <div class="player-seek-row">
+        <span class="time-current">0:00</span>
+        <div class="seek-bar">
+          <div class="seek-track"><div class="seek-fill"></div></div>
+          <div class="seek-handle"></div>
+          <input type="range" class="seek-input" min="0" max="100" value="0" step="0.1" aria-label="Seek">
+        </div>
+        <span class="time-duration">0:00</span>
+      </div>
+    </div>
+
+    <div class="player-right">
+      <div class="eq-visualizer"></div>
+      <div class="volume-group">
+        <button class="btn-icon mute-btn" aria-label="Mute"></button>
+        <input type="range" class="volume-slider" min="0" max="100" value="80" aria-label="Volume">
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/api.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/animations.js"></script>
+  <script src="js/player.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      UI.initSidebar();
+      Player.init();
+      document.querySelector('.hamburger').innerHTML = Icons.menu;
+      document.querySelector('.player-prev').innerHTML = Icons.prev;
+      document.querySelector('.player-next').innerHTML = Icons.next;
+      document.querySelector('.mute-btn').innerHTML = Icons.volume;
+      document.querySelector('.player-fav').innerHTML = Icons.heartOutline;
+      document.querySelector('.play-toggle').innerHTML = Icons.play + '<div class="player-loader"></div>';
+      document.getElementById('ph-icon').outerHTML = Icons.settings;
+
+      const nav = document.getElementById('primary-nav');
+      const navItems = [
+        { href: 'index.html', icon: Icons.home, label: 'Home' },
+        { href: 'search.html', icon: Icons.search, label: 'Search' },
+        { href: 'favorites.html', icon: Icons.heartOutline, label: 'Favorites' },
+        { href: 'recently-played.html', icon: Icons.clock, label: 'Recently Played' },
+        { href: 'radio.html', icon: Icons.radio, label: 'Live Radio' },
+        { href: 'settings.html', icon: Icons.settings, label: 'Settings', active: true },
+      ];
+      nav.innerHTML = navItems.map(i => `
+        <a href="${i.href}" class="nav-item${i.active ? ' active' : ''}">${i.icon}<span>${i.label}</span></a>
+      `).join('');
+    });
+  </script>
+</body>
+</html>
