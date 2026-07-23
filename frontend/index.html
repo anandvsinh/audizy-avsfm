@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Audizy — Dil Ki Suno</title>
+  <meta name="description" content="Audizy by AVS FM Streaming Services — a premium music streaming experience.">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/player.css">
+  <link rel="stylesheet" href="css/expanded-player.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body data-page="home">
+
+  <div class="sidebar-overlay"></div>
+
+  <div class="app-shell">
+    <!-- ============ SIDEBAR ============ -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <svg class="brand-mark" viewBox="0 0 36 36" fill="none">
+          <rect width="36" height="36" rx="10" fill="url(#g1)" />
+          <path d="M11 24V12l4 2v10a3 3 0 11-2-2.8z" fill="#0B0E13" />
+          <rect x="17.5" y="9" width="2.4" height="13" rx="1.2" fill="#0B0E13" />
+          <rect x="21.5" y="13" width="2.4" height="9" rx="1.2" fill="#0B0E13" />
+          <rect x="25.5" y="11" width="2.4" height="11" rx="1.2" fill="#0B0E13" />
+          <defs>
+            <linearGradient id="g1" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#00C2FF" />
+              <stop offset="1" stop-color="#6C63FF" />
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="brand-text">
+          <span class="brand-name">Audizy</span>
+          <span class="brand-sub">AVS STREAMING SERVICES</span>
+        </div>
+      </div>
+
+      <nav class="nav-section" id="primary-nav"></nav>
+
+      <div class="sidebar-footer">© *2026 AVS FM Streaming Services</div>
+    </aside>
+
+    <!-- ============ MAIN ============ -->
+    <main class="main">
+      <header class="topbar">
+        <button class="hamburger" aria-label="Open menu"></button>
+        <div class="topbar-search">
+          <input type="text" placeholder="Search songs, artists..." aria-label="Search">
+        </div>
+      </header>
+
+      <div class="content" id="app-content"></div>
+    </main>
+  </div>
+
+  <!-- ============ PLAYER ============ -->
+  <footer class="player">
+    <div class="player-track">
+      <div class="player-art"></div>
+      <div class="player-meta">
+        <div class="player-title">Nothing playing</div>
+        <div class="player-channel">Pick a track to start</div>
+      </div>
+      <button class="player-fav" aria-label="Favorite"></button>
+    </div>
+
+    <div class="player-center">
+      <div class="player-controls">
+        <button class="btn-icon player-prev" aria-label="Previous"></button>
+        <button class="play-toggle" aria-label="Play/Pause">
+          <div class="player-loader"></div>
+        </button>
+        <button class="btn-icon player-next" aria-label="Next"></button>
+      </div>
+      <div class="player-seek-row">
+        <span class="time-current">0:00</span>
+        <div class="seek-bar">
+          <div class="seek-track">
+            <div class="seek-fill"></div>
+          </div>
+          <div class="seek-handle"></div>
+          <input type="range" class="seek-input" min="0" max="100" value="0" step="0.1" aria-label="Seek">
+        </div>
+        <span class="time-duration">0:00</span>
+      </div>
+    </div>
+
+    <div class="player-right">
+      <div class="eq-visualizer"></div>
+      <div class="volume-group">
+        <button class="btn-icon mute-btn" aria-label="Mute"></button>
+        <input type="range" class="volume-slider" min="0" max="100" value="80" aria-label="Volume">
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============ EXPANDED PLAYER OVERLAY ============ -->
+  <div class="expanded-player" id="expanded-player" aria-hidden="true" role="dialog" aria-label="Expanded Music Player">
+    <!-- Ambient blurred background derived from album art -->
+    <div class="expanded-bg" id="expanded-bg"></div>
+    <div class="expanded-bg-overlay"></div>
+
+    <div class="expanded-container">
+      <header class="expanded-header">
+        <button class="expanded-close-btn" id="expanded-close-btn" aria-label="Close expanded player"></button>
+      </header>
+
+      <div class="expanded-content">
+        <!-- Left Section: Artwork, Track Info, Seek row, Controls -->
+        <section class="expanded-left">
+          <div class="expanded-art-wrapper">
+            <div class="expanded-art" id="expanded-art">
+              <div class="art-fallback"></div>
+            </div>
+          </div>
+
+          <div class="expanded-track-info">
+            <h2 class="expanded-title" id="expanded-title">Nothing playing</h2>
+            <p class="expanded-artist" id="expanded-artist">Pick a track to start</p>
+          </div>
+
+          <div class="expanded-seek-section">
+            <div class="expanded-seek-row">
+              <span class="expanded-time-current" id="expanded-time-current">0:00</span>
+              <div class="seek-bar expanded-seek-bar">
+                <div class="seek-track">
+                  <div class="seek-fill" id="expanded-seek-fill"></div>
+                </div>
+                <div class="seek-handle" id="expanded-seek-handle"></div>
+                <input type="range" class="seek-input" id="expanded-seek-input" min="0" max="100" value="0" step="0.1"
+                  aria-label="Seek">
+              </div>
+              <span class="expanded-time-duration" id="expanded-time-duration">0:00</span>
+            </div>
+          </div>
+
+          <div class="expanded-controls">
+            <button class="btn-icon" id="expanded-fav" aria-label="Favorite"></button>
+            <button class="btn-icon" id="expanded-prev" aria-label="Previous"></button>
+            <button class="expanded-play-btn" id="expanded-play" aria-label="Play/Pause"></button>
+            <button class="btn-icon" id="expanded-next" aria-label="Next"></button>
+            <button class="btn-icon" id="expanded-shuffle" aria-label="Shuffle"></button>
+            <button class="btn-icon" id="expanded-repeat" aria-label="Repeat"></button>
+          </div>
+        </section>
+
+        <!-- Right Section: Generic Tabbed Panel -->
+        <section class="expanded-right">
+          <nav class="expanded-tabs">
+            <button class="expanded-tab active" data-tab="queue">Queue</button>
+            <button class="expanded-tab" data-tab="lyrics">Lyrics</button>
+            <button class="expanded-tab" data-tab="visualizer">Visualizer</button>
+          </nav>
+
+          <div class="expanded-tab-content">
+            <!-- Queue Panel -->
+            <div class="tab-panel active" id="panel-queue">
+              <div class="queue-list" id="expanded-queue-list"></div>
+            </div>
+
+            <!-- Lyrics Panel Placeholder -->
+            <div class="tab-panel" id="panel-lyrics">
+              <div class="lyrics-placeholder">
+                <div class="placeholder-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 18V5l12-2v13M9 18a3 3 0 11-3-3 3 3 0 013 3zm12-2a3 3 0 11-3-3 3 3 0 013 3z" />
+                  </svg>
+                </div>
+                <div class="placeholder-title">Lyrics</div>
+                <div class="placeholder-text">Lyrics will appear here</div>
+              </div>
+            </div>
+
+            <!-- Visualizer Panel Placeholder -->
+            <div class="tab-panel" id="panel-visualizer">
+              <div class="visualizer-placeholder">
+                <div class="placeholder-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M2 12h3M7 6v12M12 3v18M17 8v8M22 12h-3" />
+                  </svg>
+                </div>
+                <div class="placeholder-title">Audio Visualizer</div>
+                <div class="placeholder-text">Coming Soon</div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/animations.js"></script>
+  <script src="js/player.js"></script>
+  <script src="js/queue.js"></script>
+  <script src="js/expanded-player.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/search.js"></script>
+  <script src="js/pages.js"></script>
+  <script src="js/router.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      UI.initSidebar();
+      Player.init();
+      ExpandedPlayer.init();
+
+      // Wire icons for shell components
+      document.querySelector('.hamburger').innerHTML = Icons.menu;
+      document.querySelector('.player-prev').innerHTML = Icons.prev;
+      document.querySelector('.player-next').innerHTML = Icons.next;
+      document.querySelector('.mute-btn').innerHTML = Icons.volume;
+      document.querySelector('.player-fav').innerHTML = Icons.heartOutline;
+      document.querySelector('.play-toggle').innerHTML = Icons.play + '<div class="player-loader"></div>';
+
+      UI.renderPrimaryNav('home');
+      Router.init();
+    });
+  </script>
+</body>
+
+</html>
