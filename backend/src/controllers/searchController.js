@@ -1,4 +1,4 @@
-const { searchSongs } = require("../services/searchService");
+const { searchSongs } = require("../services/youtubeMusic");
 
 async function search(req, res) {
     const query = req.query.q;
@@ -9,6 +9,6 @@ async function search(req, res) {
     });
 }
 
-module.exports = { 
+module.exports = {
     search
 };
